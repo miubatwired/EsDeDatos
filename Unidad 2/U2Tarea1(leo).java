@@ -1,5 +1,3 @@
-package Articulos;
-
 import javax.swing.*;
 
 public class U2Tarea1 {
@@ -18,7 +16,10 @@ public class U2Tarea1 {
                 switch(opc){
                     case 1:
                         if(!ferreteria.estaLlena()){
-                            insetar(ferreteria);
+                            descripcion = JOptionPane.showInputDialog(null,"Descripcion del articulo");
+                            cantidad = Integer.parseInt(JOptionPane.showInputDialog(null,"Cantidad del articulo"));
+                            precio = Float.parseFloat(JOptionPane.showInputDialog(null,"Precio del articulo"));
+                            ferreteria.insertar(new Articulo(descripcion,cantidad,precio));
                         }else{
                             JOptionPane.showMessageDialog(null,"La pila esta llena!");
                         }
@@ -39,14 +40,14 @@ public class U2Tarea1 {
                         break;
                     case 4:
                         if(!ferreteria.estaVacia()){
-                            calcularTotal(ferreteria);
+                            ferreteria.calcularTotal();
                         }else{
                             JOptionPane.showMessageDialog(null,"La ferretaria esta vacia!");
                         }
                         break;
                     case 5:
                         if(!ferreteria.estaVacia()){
-                            aumentarPrecio(ferreteria);
+                            ferreteria.aumentarPrecio();
                         }else{
                             JOptionPane.showMessageDialog(null,"La ferretaria esta vacia!");
                         }
@@ -54,94 +55,33 @@ public class U2Tarea1 {
                     case 6:
                         if(!ferreteria.estaVacia()){
                             descripcion = JOptionPane.showInputDialog(null,"Descripcion a buscar");
-                            buscarArticulo(ferreteria, descripcion,"desc");
+                            ferreteria.buscarArticulo(descripcion);
                         }else{
                             JOptionPane.showMessageDialog(null,"La ferretaria esta vacia!");
                         };
                         break;
                     case 7:
                         if(!ferreteria.estaVacia()){
-                            buscarArticulo(ferreteria,null,"mayor");
+                            ferreteria.buscarMayor();
                         }else{
                             JOptionPane.showMessageDialog(null,"La ferretaria esta vacia!");
                         }
                         break;
                     case 8:
                         if(!ferreteria.estaVacia()){
-                            buscarArticulo(ferreteria,"","min5");
+                            ferreteria.menorA5();
                         }else{
                             JOptionPane.showMessageDialog(null,"La ferretaria esta vacia!");
                         }
                         break;
-                    case 9:if(!ferreteria.estaVacia()){
-                        eliminarTodo(ferreteria);
+                    case 9:
+                        if(!ferreteria.estaVacia()){
+                        ferreteria.eliminarTodo();
                     }else{
                         JOptionPane.showMessageDialog(null,"La ferretaria esta vacia!");
                     }
                 }
             }
         }
-
-    }
-
-    public static void insetar(PilaArticulos pila){
-        descripcion = JOptionPane.showInputDialog(null,"Descripcion del articulo");
-        cantidad = Integer.parseInt(JOptionPane.showInputDialog(null,"Cantidad del articulo"));
-        precio = Float.parseFloat(JOptionPane.showInputDialog(null,"Precio del articulo"));
-        pila.insertar(new Articulo(descripcion,cantidad,precio));
-    }
-    public static void calcularTotal(PilaArticulos pila){
-        float sum = 0;
-        for (int i = 0; i <= pila.getTope(); i++) {
-            sum += pila.getP()[i].getCantidad() * pila.getP()[i].getPrecio();
-        }
-        JOptionPane.showMessageDialog(null,"Total inventario: " + sum);
-    }
-    public static void aumentarPrecio(PilaArticulos pila){
-        for (int i = 0; i <= pila.getTope(); i++) {
-            pila.getP()[i].setPrecio(pila.getP()[i].getPrecio() * 1.08f);
-        }
-    }
-    public static void buscarArticulo(PilaArticulos pila, String str, String cond){
-        switch (cond) {
-            case "desc":
-                for (int i = 0; i <= pila.getTope(); i++) {
-                    System.out.println(i);
-                    if (pila.getP()[i].getDescripcion().equalsIgnoreCase(str)) {
-                        JOptionPane.showMessageDialog(null, pila.getP()[i].toString());
-                        break;
-                    }
-                }
-                break;
-            case "mayor":
-                float mayor = pila.getP()[0].getPrecio();
-                int ind = 0;
-                for (int i = 0; i <= pila.getTope(); i++) {
-                    if (pila.getP()[i].getPrecio() > mayor) {
-                        mayor = pila.getP()[i].getPrecio();
-                        ind = i;
-                    }
-                }
-                JOptionPane.showMessageDialog(null, pila.getP()[ind]);
-                break;
-            case "min5":
-                String s = "Articulos con cantidad menor a 5: \n";
-                for (int i = 0; i <= pila.getTope(); i++) {
-                    if (pila.getP()[i].getCantidad() < 5) {
-                        s += pila.getP()[i].getDescripcion() + "\n";
-                    }
-                }
-                JOptionPane.showMessageDialog(null, s);
-                break;
-        }
-    }
-    public static void eliminarTodo(PilaArticulos pila){
-        String s = "Articulos eliminados: \n";
-        for (int i = 0; i <= pila.getTope(); i++) {
-            s+= pila.getP()[i].getDescripcion() + "\n";
-            pila.getP()[i] = null;
-        }
-        pila.setTope(-1);
-        JOptionPane.showMessageDialog(null,s);
     }
 }
