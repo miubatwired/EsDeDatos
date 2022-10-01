@@ -1,7 +1,7 @@
 import javax.swing.*;
 
 public class PilaArticulos {
-    // atributos
+
     private Articulo p[ ];
     private int tope;
 
@@ -22,8 +22,7 @@ public class PilaArticulos {
     public int getTope ( ) {
         return tope;
     }
-
-    // set
+    
     public void setP ( Articulo [ ] nuevoP ) {
         p = nuevoP;
     }
