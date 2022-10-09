@@ -20,8 +20,7 @@ public class U2Tarea2 {
         String postfijo = "";
         int pri;
         for(int i=0; i<infijo.length(); i++){
-            pri=prioridad(infijo.charAt(i));
-            switch (pri){
+            switch (prioridad(infijo.charAt(i))){
                 case 1:
                     if(infijo.charAt(i)=='('){
                         pilaOp.insertar(infijo.charAt(i));
