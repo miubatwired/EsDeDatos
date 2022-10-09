@@ -39,14 +39,11 @@ public class U2Tarea2 {
                 case 2:
                 case 3:
                     if(!pila.estaVacia()){
-                        while(true)
-                            if(prioridad(c) <= prioridad(pila.datoEnTope()) && !entro){
-                                res+= pila.datoEnTope();
-                                pila.eliminar();
-                            }else{
-                                pila.insertar(c);
-                                break;
-                            }
+                        while(prioridad(c) <= prioridad(pila.datoEnTope()) && !entro){
+                            res+= pila.datoEnTope();
+                            pila.eliminar();
+                        }
+                        pila.insertar(c);
                     }else
                         pila.insertar(c);
                     break;
@@ -55,16 +52,12 @@ public class U2Tarea2 {
                         if(c == '('){
                             entro = true;
                             pila.insertar(c);
-                        }else if(c == ')'){
-                            while(true){
-                                if(pila.datoEnTope() != '('){
-                                    res+=pila.eliminar();
-                                }else{
-                                    pila.eliminar();
-                                    entro = true;
-                                    break;
-                                }
+                        }else{
+                            while(pila.datoEnTope() != '('){
+                                res += pila.eliminar();
                             }
+                            pila.eliminar();
+                            entro = true;
                         }
                     }else if (c == '('){
                         pila.insertar(c);
