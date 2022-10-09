@@ -22,12 +22,15 @@ public class U2Tarea2 {
     public static String convAPostfijo(String infijo){
         PilaChar pilaOp = new PilaChar(infijo.length()/2);
         String postfijo = "";
-        int pri;
+        char op = ' ';
+        int pri = 0;
         for(int i=0; i<infijo.length(); i++){
-            switch (prioridad(infijo.charAt(i))){
+            op = infijo.charAt(i);
+            pri = prioridad(op);
+            switch (pri){
                 case 1:
-                    if(infijo.charAt(i)=='('){
-                        pilaOp.insertar(infijo.charAt(i));
+                    if(op=='('){
+                        pilaOp.insertar(op);
                     }else{
                         while(pilaOp.datoEnTope()!='('){
                             postfijo += pilaOp.eliminar();
@@ -39,16 +42,16 @@ public class U2Tarea2 {
                 case 3:
                 case 4:
                     if(pilaOp.estaVacia()){
-                        pilaOp.insertar(infijo.charAt(i));
+                        pilaOp.insertar(op);
                     }else {
-                        while (prioridad(infijo.charAt(i)) <= prioridad(pilaOp.datoEnTope())) {
+                        while (pri <= prioridad(pilaOp.datoEnTope())) {
                             postfijo += pilaOp.eliminar();
                         }
-                        pilaOp.insertar(infijo.charAt(i));
+                        pilaOp.insertar(op);
                     }
                     break;
                 case 5:
-                    postfijo += infijo.charAt(i);
+                    postfijo += op;
             }
         }
         while(pilaOp.datoEnTope()!=' '){
