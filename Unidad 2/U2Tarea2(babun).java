@@ -14,7 +14,7 @@ public class U2Tarea2 {
             if(opc==1){
                 infijo = JOptionPane.showInputDialog("Escriba la expresión a convertir: ");
                 JOptionPane.showMessageDialog(null, "La expresión a convertir: \n" + infijo +
-                        "\n\n La expresión convertida en postfijo es: \n" + convAPostfijo(infijo));
+                        "\n\nLa expresión convertida en postfijo es: \n" + convAPostfijo(infijo));
             }
         }
     }
