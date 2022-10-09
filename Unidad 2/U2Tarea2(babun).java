@@ -1,4 +1,9 @@
+package unidad2;
 import javax.swing.JOptionPane;
+
+/*
+    Este programa convierte una expresión de infijo a postfijo
+ */
 
 public class U2Tarea2 {
     public static void main(String[] args) {
