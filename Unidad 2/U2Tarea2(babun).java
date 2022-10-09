@@ -1,4 +1,3 @@
-package unidad2;
 import javax.swing.JOptionPane;
 
 /*
