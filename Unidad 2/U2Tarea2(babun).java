@@ -21,7 +21,6 @@ public class U2Tarea2 {
         int pri;
         for(int i=0; i<infijo.length(); i++){
             pri=prioridad(infijo.charAt(i));
-            //JOptionPane.showMessageDialog(null, "Ṕri" + pri);
             switch (pri){
                 case 1:
                     if(infijo.charAt(i)=='('){
