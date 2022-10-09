@@ -81,6 +81,7 @@ public class U2Tarea2 {
                         if(c == '('){
                             /*System.out.println("Entro a if'('");
                             Thread.sleep(2000);*/
+                            entro = true;
                             pila.insertar(c);
                         }else if(c == ')'){
                             /*System.out.println("Entro a elif ')'");
