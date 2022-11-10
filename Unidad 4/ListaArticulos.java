@@ -221,8 +221,7 @@ public class ListaArticulos {
                 i++;
             }
         }
-        momento=new NodoArticulo("No se encontró la descripción",0,0);
-        return momento;
+        return null;
     }
 
     public String toString() {

@@ -32,8 +32,13 @@ public class Practica1 {
                     articulos.eliminaUltimo();
                     break;
                 case 4:
-                    String desc = JOptionPane.showInputDialog("Teclee la descripción del objeto a eliminar");
-                    JOptionPane.showMessageDialog(null, articulos.eliminarPorDescripcion(desc).toString());
+                    String desc = JOptionPane.showInputDialog("Teclee la descripción del artículo a eliminar");
+                    NodoArticulo eliminado = articulos.eliminarPorDescripcion(desc);
+                    if(eliminado!=null){
+                        JOptionPane.showMessageDialog(null, eliminado.toString());
+                    }else{
+                        JOptionPane.showMessageDialog(null, "No se encontró el artículo");
+                    }
                     break;
             }
         }
