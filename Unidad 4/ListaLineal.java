@@ -7,7 +7,7 @@ package unidad4;
  
 public class ListaLineal {
     // Atributos
-    private Nodo inicio; 
+    private NodoDos inicio;
     private int numNodos;
     
     // Constructor para crear una lista vacía
@@ -17,7 +17,7 @@ public class ListaLineal {
     }
 
     // get...
-    public Nodo getInicio ( ) { 
+    public NodoDos getInicio ( ) {
         return inicio;
     }
         
@@ -26,22 +26,22 @@ public class ListaLineal {
     }
 
     // Método que devuelve true si la lista está vacía
-    public boolean listaVacia() { 
-        if (inicio == null)
-            return true; 
+    public boolean isEmpty() {
+        if(inicio == null)
+            return true;
         else
             return false;
     }
 
     // Método que inserta un nodo al inicio de la lista 
-    public void insertaInicio (Nodo nuevo) {
+    public void insertaInicio (NodoDos nuevo) {
         nuevo.setEnlace(inicio);
         inicio = nuevo;
         numNodos++; 
     }
 
     public void recorreLista() {
-        Nodo r = inicio;
+        NodoDos r = inicio;
         System.out.println("Empieza la lista:\n");
         while (r != null) {
             System.out.println ( r.toString() + "\n");
@@ -50,7 +50,7 @@ public class ListaLineal {
         System.out.println("Fin de la lista"); }
 
     public String toString(){
-        Nodo r = inicio;
+        NodoDos r = inicio;
         String s = "";
         for(;r!=null;){
         s += r.toString() + "\n";
@@ -59,9 +59,22 @@ public class ListaLineal {
     return s;
     }
 
-    public void insertarFinal(Nodo x){
-        Nodo r = inicio;
-        if(listaVacia()){
+    public float sumaDatos2(){
+        float suma;
+        suma=0;
+        NodoDos r = inicio;
+        for(;;){
+            if(r==null){
+                break;
+            }
+            suma = suma + r.getDato2();
+            r = r.getEnlace();
+        }
+        return suma;
+    }
+    public void insertarFinal(NodoDos x){
+        NodoDos r = inicio;
+        if(isEmpty()){
             inicio = x;
         }else{
             while(r.getEnlace()!=null){
@@ -70,6 +83,25 @@ public class ListaLineal {
             r.setEnlace(x); //liga el último nodo al nuevo "x"
         }
         numNodos++;
+    }
+
+    public boolean buscarPorDato1(String s){
+        NodoDos r=inicio;
+        while(r!=null){
+            if(r.getDato1().equalsIgnoreCase(s)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public NodoDos eliminaInicio(){
+        NodoDos r = inicio;
+        if(!isEmpty()){
+            inicio = r.getEnlace();
+            numNodos--;
+        }
+        return r;
     }
 
     // FALTAN MUCHOS MÁS MÉTODOS
