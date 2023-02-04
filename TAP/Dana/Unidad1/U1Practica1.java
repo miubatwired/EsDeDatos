@@ -49,15 +49,21 @@ public class U1Practica1 {
                             reprobados.append("Nombre: ").append(alumnos[i].getNombre()).append("\nCalificaciones: ").append(Arrays.toString(alumnos[i].getCalif())).append("\n\n");
                         }
                     }
-                    JOptionPane.showMessageDialog(null, reprobados.toString());
+                    if(!reprobados.isEmpty()){
+                        JOptionPane.showMessageDialog(null, reprobados.toString());
+                    }else{
+                        JOptionPane.showMessageDialog(null, "No hay alumnos reprobados");
+                    }
                     break;
                 case "Aumentar puntos":
                     float cali = 0;
                     float[] vecal = new float[3];
+                    boolean encontrado = false;
                     String nombre = JOptionPane.showInputDialog(null, "Escriba el nombre del alumno");
                     for(int i=0; i<10; i++){
                         if(alumnos[i]!=null){
                             if(alumnos[i].getNombre().equals(nombre)){
+                                encontrado = true;
                                 for(int j=0; j<3; j++){
                                     cali = alumnos[i].getCalif()[j] + 5;
                                     if(cali>100){
@@ -66,22 +72,26 @@ public class U1Practica1 {
                                         vecal[j] = cali;
                                     }
                                 }
-
+                                alumnos[i].setCalif(vecal);
                             }
-                            alumnos[i].setCalif(vecal);
                         }
+                    }
+                    if(!encontrado){
+                        JOptionPane.showMessageDialog(null,"No se encontró el alumno");
                     }
                     break;
                 case "Alumnos que nacieron en FEB/2002":
-                    String s = "";
+                    StringBuilder s = new StringBuilder();
                     for(int i=0; i<10; i++){
                         if(alumnos[i]!=null){
                             if(alumnos[i].getFechaNac().getMes()==2 && alumnos[i].getFechaNac().getAño()==2002){
-                                s += alumnos[i].toString() + "\n\n";
+                                s.append(alumnos[i].toString()).append("\n\n");
                             }
                         }
                     }
-                    JOptionPane.showMessageDialog(null, s);
+                    if(!s.isEmpty()){
+                        JOptionPane.showMessageDialog(null, s.toString());
+                    }
                     break;
             }
         }
