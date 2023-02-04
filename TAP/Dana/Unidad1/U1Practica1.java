@@ -1,66 +1,48 @@
 package unidad1;
-import javax.swing.*;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import java.util.Arrays;
 
 public class U1Practica1 {
     public static void main(String[] args) {
-        hola();
         Alumno[] alumnos = new Alumno[10];
-        String menu = """
-                                OPCIONES
-                1. Alta de un alumno
-                2. Mostrar alumnos
-                3. Alumnos menores de edad
-                4. Alumnos con promedio reprobado
-                5. Aumentar puntos
-                6. Alumnos que nacieron en FEB/2002
-                7. Salir
-                """;
-        String nombre;
-        int edad, numControl, pos, dia, mes, año;
-        boolean control = true;
-        float[] calificaciones;
-        float calif;
-        int opcion = 0;
-        while(control){
-            opcion = Integer.parseInt(JOptionPane.showInputDialog(menu));
-            switch(opcion){
-                case 1:
-                    pos = Integer.parseInt(JOptionPane.showInputDialog("¿En qué posición desea insertar al alumno?"));
+
+        String[] opcionesSeleccion = { "Dar de alta alumno", "Mostrar alumnos", "Mostrar alumnos menores de edad",
+                "Mostrar alumnos reprobados", "Aumentar puntos", "Alumnos que nacieron en FEB/2002", "Salir" };
+
+        String opcionSeleccionada = "SELECCIONAR";
+
+        while (opcionSeleccionada != opcionesSeleccion[opcionesSeleccion.length - 1]){
+            opcionSeleccionada = JOptionPane.showInputDialog(null, "Qué desea hacer?", "Operaciones alumnos",
+                    JOptionPane.QUESTION_MESSAGE, null, opcionesSeleccion, "SELECCIONAR").toString();
+            switch (opcionSeleccionada){
+                case "Dar de alta alumno":
+                    int pos = Integer.parseInt(JOptionPane.showInputDialog("¿En qué posición desea ingresar al alumno?"));
                     if(pos>0 && pos<11){
-                        if(alumnos[pos-1]==null){
-                            calificaciones = new float[3];
-                            nombre = JOptionPane.showInputDialog("Escriba el nombre del alumno");
-                            edad = Integer.parseInt(JOptionPane.showInputDialog("Escriba la edad del alumno"));
-                            numControl = Integer.parseInt(JOptionPane.showInputDialog("Escriba el número de control del alumno"));
-                            for(int i=0; i<3; i++){
-                                calificaciones[i] = Float.parseFloat(JOptionPane.showInputDialog("Escriba la " + i + " califación"));
-                            }
-                            dia = Integer.parseInt(JOptionPane.showInputDialog("Escriba el día de la fecha de nacimiento"));
-                            mes = Integer.parseInt(JOptionPane.showInputDialog("Escriba el mes de la fecha de nacimiento"));
-                            año = Integer.parseInt(JOptionPane.showInputDialog("Escriba el año de la fecha de nacimiento"));
-                            alumnos[pos-1] = new Alumno(nombre, edad, numControl, calificaciones, new Fecha(dia, mes, año));
+                        if(alumnos[pos]==null){
+                            alumnos[pos] = altaAlumno();
                         }else{
-                            JOptionPane.showMessageDialog(null, "Esa posición está ocupada");
+                            JOptionPane.showMessageDialog(null, "Esta posición está ocupada");
                         }
                     }else{
-                        JOptionPane.showMessageDialog(null, "Esta posición no es válida");
+                        JOptionPane.showMessageDialog(null, "Esa posición no es válida");
                     }
                     break;
-                case 2:
+                case "Mostrar alumnos":
                     for(int i=0; i<10; i++){
                         if(alumnos[i]!=null)
                             JOptionPane.showMessageDialog(null, alumnos[i].toString());
                     }
                     break;
-                case 3:
+                case "Mostrar alumnos menores de edad":
                     for(int i=0; i<10; i++){
                         if(alumnos[i] != null && alumnos[i].getEdad()<18){
                             JOptionPane.showMessageDialog(null, alumnos[i].toString());
                         }
                     }
                     break;
-                case 4:
+                case "Mostrar alumnos reprobados":
                     StringBuilder reprobados = new StringBuilder();
                     for(int i=0; i<10; i++){
                         if(alumnos[i]!=null && alumnos[i].calculaPromedio()<70){
@@ -69,10 +51,10 @@ public class U1Practica1 {
                     }
                     JOptionPane.showMessageDialog(null, reprobados.toString());
                     break;
-                case 5:
+                case "Aumentar puntos":
                     float cali = 0;
                     float[] vecal = new float[3];
-                    nombre = JOptionPane.showInputDialog(null, "Escriba el nombre del alumno");
+                    String nombre = JOptionPane.showInputDialog(null, "Escriba el nombre del alumno");
                     for(int i=0; i<10; i++){
                         if(alumnos[i]!=null){
                             if(alumnos[i].getNombre().equals(nombre)){
@@ -90,7 +72,7 @@ public class U1Practica1 {
                         }
                     }
                     break;
-                case 6:
+                case "Alumnos que nacieron en FEB/2002":
                     String s = "";
                     for(int i=0; i<10; i++){
                         if(alumnos[i]!=null){
@@ -101,28 +83,66 @@ public class U1Practica1 {
                     }
                     JOptionPane.showMessageDialog(null, s);
                     break;
-                case 7:
-                    control = false;
             }
         }
     }
 
-    public static void hola(){
-        try {
-            UIManager.setLookAndFeel(
-                    "com.sun.java.swing.plaf.motif.MotifLookAndFeel");
-        }
-        catch (UnsupportedLookAndFeelException e) {
-            // handle exception
-        }
-        catch (ClassNotFoundException e) {
-            // handle exception
-        }
-        catch (InstantiationException e) {
-            // handle exception
-        }
-        catch (IllegalAccessException e) {
-            // handle exception
-        }
+
+    private static Alumno altaAlumno() {
+
+        Alumno nuevoAlumno = new Alumno();
+
+        JLabel labelNombre = new JLabel("Nombre:");
+        JLabel labelNumeroControl = new JLabel("Número de control:");
+        JLabel labelCalificaciones = new JLabel("Calificaciones:");
+        JTextField tfNombre = new JTextField();
+        JTextField tfNumeroControl = new JTextField();
+        JTextField tfCalificacion1 = new JTextField();
+        JTextField tfCalificacion2 = new JTextField();
+        JTextField tfCalificacion3 = new JTextField();
+
+        Object[] componentesFormularioDatosPersonales = { labelNombre, tfNombre, labelNumeroControl, tfNumeroControl,
+                labelCalificaciones, tfCalificacion1, tfCalificacion2, tfCalificacion3 };
+
+        JOptionPane.showMessageDialog(null, componentesFormularioDatosPersonales, "Datos personales",
+                JOptionPane.QUESTION_MESSAGE, null);
+
+        float[] calificacionesNAlumno = { Float.parseFloat(tfCalificacion1.getText()),
+                Float.parseFloat(tfCalificacion2.getText()), Float.parseFloat(tfCalificacion3.getText()) };
+
+        JLabel labelDia = new JLabel("Dia:");
+        JLabel labelMes = new JLabel("Mes:");
+        JLabel labelAnio = new JLabel("Año:");
+        JTextField tfDia = new JTextField();
+        JTextField tfMes = new JTextField();
+        JTextField tfAnio = new JTextField();
+
+        Object[] componentesFormularioFechaNac = { labelDia, tfDia, labelMes, tfMes, labelAnio, tfAnio };
+
+        JOptionPane.showMessageDialog(null, componentesFormularioFechaNac, "Fecha de nacimiento",
+                JOptionPane.QUESTION_MESSAGE, null);
+
+        int alumnoDiaN = Integer.parseInt(tfDia.getText());
+        int alumnoMesN = Integer.parseInt(tfMes.getText());
+        int alumnoAnioN = Integer.parseInt(tfAnio.getText());
+        Fecha fechaNacimientoNuevoAlumno = new Fecha(alumnoDiaN, alumnoMesN, alumnoAnioN);
+
+        nuevoAlumno.setNombre(tfNombre.getText());
+        nuevoAlumno.setNumControl(Integer.parseInt(tfNumeroControl.getText()));
+        nuevoAlumno.setCalif(calificacionesNAlumno);
+        nuevoAlumno.setFechaNac(fechaNacimientoNuevoAlumno);
+        nuevoAlumno.calcularEdad();
+
+        tfNombre.setText("");
+        tfNumeroControl.setText("");
+        tfCalificacion1.setText("");
+        tfCalificacion2.setText("");
+        tfCalificacion3.setText("");
+        tfDia.setText("");
+        tfMes.setText("");
+        tfAnio.setText("");
+
+        return nuevoAlumno;
+
     }
 }
