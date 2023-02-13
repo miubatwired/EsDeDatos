@@ -1,5 +1,7 @@
 package practica4u1;
 
+import java.util.HashMap;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -22,7 +24,20 @@ public class U1Practica4 {
 				"3.- Mostrar departamentos", "4.- Inventario por departamentos", "5.- Buscar por artículo",
 				"6.- Terminar" };
 
+		// HashMap<String, Integer> opcionesSeleccionAlt = new HashMap<String,
+		// Integer>();
+
+		/*
+		 * opcionesSeleccionAlt.put("Registrar departamento", 1);
+		 * opcionesSeleccionAlt.put("Registrar artículo en un departamento", 2);
+		 * opcionesSeleccionAlt.put("Mostrar departamentos", 3);
+		 * opcionesSeleccionAlt.put("Inventario por departamentos", 4);
+		 * opcionesSeleccionAlt.put("Buscar por artículo", 5);
+		 * opcionesSeleccionAlt.put("Terminar", 6);
+		 */
+
 		int indiceOpcionSeleccionada;
+		// int indiceOpcionSeleccionadaAlt;
 
 		int departamentosCreados = 0;
 		int[] articulosCreados = { 0, 0, 0, 0 };
@@ -34,7 +49,14 @@ public class U1Practica4 {
 							JOptionPane.QUESTION_MESSAGE, null, opcionesSeleccion, "SELECCIONAR")
 					.toString().substring(0, 1));
 
-			switch (indiceOpcionSeleccionada) {
+			/*
+			 * indiceOpcionSeleccionadaAlt = opcionesSeleccionAlt.get(JOptionPane
+			 * .showInputDialog(null, "Qué desea hacer?", "Operaciones departamentos",
+			 * JOptionPane.QUESTION_MESSAGE, null, opcionesSeleccionAlt.keySet().toArray(),
+			 * "SELECCIONAR") .toString());
+			 */
+
+			switch (indiceOpcionSeleccionada /* indiceOpcionSeleccionadaAlt */) {
 			case 1: {
 				JLabel labelNombre = new JLabel("Nombre");
 				JTextField tfNombre = new JTextField();
@@ -69,14 +91,15 @@ public class U1Practica4 {
 				boolean hayDeps = false;
 				for (int i = 0; i < departamentos.length; i++) {
 					if (departamentos[i] != null) {
-						opcionesDepartamentos[i] = i + " - Nombre: " + departamentos[i].getNombre() + " - Responsable: " + departamentos[i].getResponsable();
+						opcionesDepartamentos[i] = i + " - Nombre: " + departamentos[i].getNombre() + " - Responsable: "
+								+ departamentos[i].getResponsable();
 						hayDeps = true;
 					} else {
 						opcionesDepartamentos[i] = i + " - NO CREADO";
 					}
 				}
 				if (!hayDeps) {
-					JOptionPane.showMessageDialog(null, "Todavía no ha creado departamentos!");
+					JOptionPane.showMessageDialog(null, "No ha creado departamentos!");
 				} else {
 
 					int indiceDepartamentoSeleccionado = Integer.parseInt(
@@ -107,29 +130,38 @@ public class U1Practica4 {
 					JTextField tfMes = new JTextField();
 					JTextField tfAnio = new JTextField();
 
-					Object[] componentesFormularioCreacionArticulo = { labelQuery, labelDescripcion, tfDescripcion, labelCantidad,
-							tfCantidad, labelPrecio, tfPrecio, labelFechaCaducidad, labelDia, tfDia, labelMes, tfMes,
-							labelAnio, tfAnio };
+					Object[] componentesFormularioCreacionArticulo = { labelQuery, labelDescripcion, tfDescripcion,
+							labelCantidad, tfCantidad, labelPrecio, tfPrecio, labelFechaCaducidad, labelDia, tfDia,
+							labelMes, tfMes, labelAnio, tfAnio };
 
-					JOptionPane.showMessageDialog(null, componentesFormularioCreacionArticulo, "Ingresar artículo",
-							JOptionPane.QUESTION_MESSAGE, null);
+					try {
+						JOptionPane.showMessageDialog(null, componentesFormularioCreacionArticulo, "Ingresar artículo",
+								JOptionPane.QUESTION_MESSAGE, null);
+						if ((Integer.parseInt(tfDia.getText()) > 31) || (Integer.parseInt(tfDia.getText()) < 1)
+								|| (Integer.parseInt(tfMes.getText()) > 12) || (Integer.parseInt(tfMes.getText()) < 1)
+								|| (Integer.parseInt(tfAnio.getText()) < 1)) {
+							throw new Exception();
+						}
 
-					String descripcion = tfDescripcion.getText();
-					int cantidad = Integer.parseInt(tfCantidad.getText());
-					float precio = Float.parseFloat(tfPrecio.getText());
-					Fecha fechaCaducidad = new Fecha(Integer.parseInt(tfDia.getText()),
-							Integer.parseInt(tfMes.getText()), Integer.parseInt(tfAnio.getText()));
+						String descripcion = tfDescripcion.getText();
+						int cantidad = Integer.parseInt(tfCantidad.getText());
+						float precio = Float.parseFloat(tfPrecio.getText());
+						Fecha fechaCaducidad = new Fecha(Integer.parseInt(tfDia.getText()),
+								Integer.parseInt(tfMes.getText()), Integer.parseInt(tfAnio.getText()));
 
-					if (departamentos[indiceDepartamentoSeleccionado]
-							.getArticulos()[articulosCreados[indiceDepartamentoSeleccionado]] == null) {
-						departamentos[indiceDepartamentoSeleccionado]
-								.getArticulos()[articulosCreados[indiceDepartamentoSeleccionado]] = new Articulo(
-										descripcion, cantidad, precio, fechaCaducidad);
-						JOptionPane.showMessageDialog(null,
-								"Artículo creado en el departamento " + (indiceDepartamentoSeleccionado + 1));
-						articulosCreados[indiceDepartamentoSeleccionado]++;
-					} else {
-						JOptionPane.showMessageDialog(null, "ARTÍCULO NO PUEDE REGISTRARSE");
+						if (departamentos[indiceDepartamentoSeleccionado]
+								.getArticulos()[articulosCreados[indiceDepartamentoSeleccionado]] == null) {
+							departamentos[indiceDepartamentoSeleccionado]
+									.getArticulos()[articulosCreados[indiceDepartamentoSeleccionado]] = new Articulo(
+											descripcion, cantidad, precio, fechaCaducidad);
+							JOptionPane.showMessageDialog(null,
+									"Artículo creado en el departamento " + (indiceDepartamentoSeleccionado + 1));
+							articulosCreados[indiceDepartamentoSeleccionado]++;
+						} else {
+							JOptionPane.showMessageDialog(null, "ARTÍCULO NO PUEDE REGISTRARSE");
+						}
+					} catch (Exception e) {
+						JOptionPane.showMessageDialog(null, "La fecha o las cantidades que ingresó no son válidos");
 					}
 
 					tfDescripcion.setText("");
@@ -151,19 +183,27 @@ public class U1Practica4 {
 					} else {
 						hayDeps = true;
 					}
-					todosDepartamentos += ("\nDepartamento " + (i + 1) + ": " + departamentos[i].getNombre())
-							+ ("\nEncargado: " + departamentos[i].getResponsable());
+					todosDepartamentos += (((i == 0) ? "Departamento " : "\n<------>\nDepartamento ") + (i + 1) + ": "
+							+ departamentos[i].getNombre()) + ("\nEncargado: " + departamentos[i].getResponsable());
 					for (int j = 0; j < departamentos[i].getArticulos().length; j++) {
+						System.out.println(i + " i\n" + j + " j");
 						if (departamentos[i].getArticulos()[j] == null) {
+							if (j != 0)
+								todosDepartamentos += "\n}";
 							break;
 						}
 						if (j == 0) {
-							todosDepartamentos += "\nArticulos: {" + "\n\t"
-									+ departamentos[i].getArticulos()[j].toString();
-						} else if (j == departamentos[i].getArticulos().length - 1) {
-							todosDepartamentos += "\n\t" + departamentos[i].getArticulos()[j].toString() + "\n}";
+							todosDepartamentos += "\n\nArticulos: {" + "\n  "
+									+ (departamentos[i].getArticulos()[j].getDescripcion() + ", "
+											+ departamentos[i].getArticulos()[j].getCantidad() + " unidades,")
+									+ ("\n  $" + departamentos[i].getArticulos()[j].getPrecio() + " MXN. Expira a "
+											+ departamentos[i].getArticulos()[j].getFechaCaducidad());
 						} else {
-							todosDepartamentos += "\n\t" + departamentos[i].getArticulos()[j].toString();
+							todosDepartamentos += "\n\n  "
+									+ (departamentos[i].getArticulos()[j].getDescripcion() + ", "
+											+ departamentos[i].getArticulos()[j].getDescripcion() + " unidades,")
+									+ ("\n  $" + departamentos[i].getArticulos()[j].getPrecio() + " MXN. Expira a "
+											+ departamentos[i].getArticulos()[j].getFechaCaducidad());
 						}
 					}
 				}
@@ -199,7 +239,7 @@ public class U1Practica4 {
 								* departamentos[i].getArticulos()[j].getCantidad());
 					}
 
-					sMontosInvsDeps += "\n" + (i+1) + ", " + departamentos[i].getNombre() + ": $" + montoInvDepActual
+					sMontosInvsDeps += "\n" + (i + 1) + ", " + departamentos[i].getNombre() + ": $" + montoInvDepActual
 							+ " MXN";
 
 				}
@@ -240,7 +280,7 @@ public class U1Practica4 {
 							}
 							if (departamentos[i].getArticulos()[j].getDescripcion().equalsIgnoreCase(descArtIn)) {
 								hayArts = true;
-								artBuscado += ("\nArticulo " + (j+1) + " del departamento " + (i+1) + " ( "
+								artBuscado += ("\nArticulo " + (j + 1) + " del departamento " + (i + 1) + " ("
 										+ departamentos[i].getNombre() + ")")
 										+ ("\n\t" + departamentos[i].getArticulos()[j].toString());
 							}
@@ -252,7 +292,7 @@ public class U1Practica4 {
 					if (hayArts) {
 						JOptionPane.showMessageDialog(null, "Se ha encontrado el siguiente artículo:" + artBuscado);
 					} else {
-						JOptionPane.showMessageDialog(null, "ARITCULO NO ENCONTRADO");
+						JOptionPane.showMessageDialog(null, "ARTÍCULO NO ENCONTRADO");
 					}
 				}
 			}
