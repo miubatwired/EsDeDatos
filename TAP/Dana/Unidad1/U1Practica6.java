@@ -17,7 +17,6 @@ public class U1Practica6 {
     public static void main(String[] args) {
         String[] opciones = {"Pedir snack", "Mostrar golosinas", "Dinero en caja","Rellenar snacks","Salir"};
         int eleccion,i,j;
-        int cambio;
         boolean salir=false;
         dineroCaja = 100;
         Snack[][] snacks =new Snack[][]{
@@ -46,7 +45,7 @@ public class U1Practica6 {
                     String[][] maquina = new String[5][3];
                     for(i=0; i < snacks.length; i++){
                         for(j=0; j< snacks[i].length;j++){
-                            maquina[i][j] = "<html>Nombre: " + snacks[i][j].getNombre() + "<br>Precio: " + snacks[i][j].getPrecio() + "<br>Inventario " + snacks[i][j].getInventario();
+                            maquina[i][j] = "<html>Código del snack: " + i + j + "<br>Nombre: " + snacks[i][j].getNombre() + "<br>Precio: " + snacks[i][j].getPrecio() + "<br>Inventario " + snacks[i][j].getInventario();
                         }
                     }
                     MultiLineTableCellRenderer renderer = new MultiLineTableCellRenderer();
@@ -91,7 +90,7 @@ public class U1Practica6 {
     }
 
     public static String validacion(int dinero, Snack snack){
-        if(snack.getInventario()<0){
+        if(snack.getInventario()==0){
             return "No hay inventario de " + snack.getNombre();
         }
         if(dinero<snack.getPrecio()){
@@ -99,10 +98,12 @@ public class U1Practica6 {
         }
         int cambio = dinero - snack.getPrecio();
         if(dineroCaja-cambio<0){
-            return "La máquina no tiene suficiente dinero";
+            return "La máquina no tiene suficiente cambio, regresando su dinero...";
         }
+        snack.setInventario(snack.getInventario()-1);
         dineroCaja-=cambio;
-        return "Su cambio es de " + cambio;
+        dineroCaja+=dinero;
+        return "Su cambio es de $" + cambio;
     }
 
 }
