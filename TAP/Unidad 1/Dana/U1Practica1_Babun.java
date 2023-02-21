@@ -2,7 +2,7 @@ package unidad1;
 import javax.swing.*;
 import java.util.Arrays;
 
-public class U1Practica1 {
+public class U1Practica1_Babun {
     public static void main(String[] args) {
         hola();
         Alumno[] alumnos = new Alumno[10];
@@ -110,7 +110,8 @@ public class U1Practica1 {
     public static void hola(){
         try {
             UIManager.setLookAndFeel(
-                    "com.sun.java.swing.plaf.motif.MotifLookAndFeel");
+                    "com.jtattoo.plaf.noire.NoireLookAndFeel");
+            //UIManager.setLookAndFeel("com.jtattoo.plaf.bernstein.BernsteinLookAndFeel");
         }
         catch (UnsupportedLookAndFeelException e) {
             // handle exception
